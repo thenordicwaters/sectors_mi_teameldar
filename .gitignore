@@ -1,0 +1,36 @@
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Python
+.venv/
+backend/.venv/
+backend/venv/
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/*.egg-info/
+backend/.coverage
+backend/htmlcov/
+
+# SQLite cache (Phase 1)
+backend/data/*.db
+backend/data/*.db-journal
+backend/cache/
+
+# Node / SvelteKit
+frontend/node_modules/
+frontend/.svelte-kit/
+frontend/build/
+frontend/.vercel/
+frontend/.output/
+frontend/vite.config.ts.timestamp-*
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+*.swp
