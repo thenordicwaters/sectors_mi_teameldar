@@ -6,16 +6,16 @@ from app.models.common import Pagination
 
 
 class AnomalyKind(str, Enum):
-    volume_zscore = "volume_zscore"
-    foreign_flow_zscore = "foreign_flow_zscore"
+    volume_standard_score = "volume_standard_score"
+    foreign_flow_standard_score = "foreign_flow_standard_score"
 
 
 class AnomalyFlag(BaseModel):
-    symbol: str
+    ticker_symbol: str
     company_name: str
-    kind: AnomalyKind
-    z_score: float
-    as_of: str = Field(description="YYYY-MM-DD")
+    anomaly_kind: AnomalyKind
+    standard_score: float
+    as_of_date: str = Field(description="YYYY-MM-DD")
     reason: str
 
 

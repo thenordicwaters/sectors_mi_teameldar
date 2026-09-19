@@ -6,19 +6,24 @@ from app.models.stock import StockDetail, StockFlow, StockOverview, StockValuati
 router = APIRouter(prefix="/api/stocks", tags=["stocks"])
 
 
-@router.get("/{symbol}", response_model=StockDetail)
-def get_stock(symbol: str) -> StockDetail:
+@router.get("/{ticker_symbol}", response_model=StockDetail)
+def get_stock_detail(ticker_symbol: str) -> StockDetail:
     """Stub. Phase 1 will map cached company-report sections (1 credit each)."""
-    cleaned = symbol.strip().upper().removesuffix(".JK")
-    if len(cleaned) != 4 or not cleaned.isalpha():
+    normalized_symbol = ticker_symbol.strip().upper().removesuffix(".JK")
+    if len(normalized_symbol) != 4 or not normalized_symbol.isalpha():
         raise HTTPException(status_code=400, detail="IDX symbol must be 4 letters.")
     return StockDetail(
-        symbol=f"{cleaned}.JK",
+        ticker_symbol=f"{normalized_symbol}.JK",
         company_name="",
         overview=StockOverview(),
         valuation=StockValuation(),
         flow=StockFlow(),
         score=ScoreBreakdown(
-            overall=0, value=0, quality=0, momentum=0, flow=0, rank=None
+            overall_score=0,
+            value_score=0,
+            quality_score=0,
+            momentum_score=0,
+            flow_score=0,
+            universe_rank=None,
         ),
     )

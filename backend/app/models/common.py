@@ -11,13 +11,13 @@ class ViewTab(str, Enum):
 
 class SignalKind(str, Enum):
     mover = "mover"
-    week_52_high = "week_52_high"
+    fifty_two_week_high = "fifty_two_week_high"
     foreign_accumulation = "foreign_accumulation"
     insider_buying = "insider_buying"
 
 
 class SignalBadge(BaseModel):
-    kind: SignalKind
+    signal_kind: SignalKind
     label: str
     reason: str
 
@@ -25,20 +25,20 @@ class SignalBadge(BaseModel):
 class ScoreBreakdown(BaseModel):
     """Four-pillar score. Weights are decided in Phase 2; placeholders are 0 until then."""
 
-    overall: float = Field(ge=0, le=100)
-    value: float = Field(ge=0, le=100)
-    quality: float = Field(ge=0, le=100)
-    momentum: float = Field(ge=0, le=100)
-    flow: float = Field(ge=0, le=100)
-    rank: int | None = Field(default=None, ge=1)
+    overall_score: float = Field(ge=0, le=100)
+    value_score: float = Field(ge=0, le=100)
+    quality_score: float = Field(ge=0, le=100)
+    momentum_score: float = Field(ge=0, le=100)
+    flow_score: float = Field(ge=0, le=100)
+    universe_rank: int | None = Field(default=None, ge=1)
 
 
 class Pagination(BaseModel):
     total_count: int = Field(ge=0)
-    showing: int = Field(ge=0)
-    limit: int = Field(ge=1, le=200)
-    offset: int = Field(ge=0)
-    has_next: bool
-    has_previous: bool
-    next_offset: int | None = None
-    previous_offset: int | None = None
+    shown_count: int = Field(ge=0)
+    page_size: int = Field(ge=1, le=200)
+    page_offset: int = Field(ge=0)
+    has_next_page: bool
+    has_previous_page: bool
+    next_page_offset: int | None = None
+    previous_page_offset: int | None = None

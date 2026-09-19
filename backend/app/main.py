@@ -27,5 +27,5 @@ app.include_router(unusual.router)
 
 
 @app.get("/health")
-def health() -> dict[str, str]:
+def health_check() -> dict[str, str]:
     return {"status": "ok", "disclaimer": DISCLAIMER}

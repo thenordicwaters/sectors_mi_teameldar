@@ -9,8 +9,8 @@ class StockOverview(BaseModel):
     sub_industry: str | None = None
     sector: str | None = None
     sub_sector: str | None = None
-    market_cap: float | None = None
-    market_cap_rank: int | None = None
+    market_capitalization: float | None = None
+    market_capitalization_rank: int | None = None
     last_close_price: float | None = None
     daily_close_change: float | None = None
     listing_date: str | None = None
@@ -19,31 +19,31 @@ class StockOverview(BaseModel):
 
 
 class StockValuation(BaseModel):
-    pe_ttm: float | None = None
-    pb_mrq: float | None = None
-    ps_ttm: float | None = None
-    forward_pe: float | None = None
+    price_to_earnings_trailing_twelve_months: float | None = None
+    price_to_book_most_recent_quarter: float | None = None
+    price_to_sales_trailing_twelve_months: float | None = None
+    forward_price_to_earnings: float | None = None
     intrinsic_value: float | None = None
 
 
 class StockFlow(BaseModel):
     net_foreign_inflow: float | None = None
-    foreign_buy_idr: float | None = None
-    foreign_sell_idr: float | None = None
-    as_of: str | None = Field(default=None, description="YYYY-MM-DD")
+    foreign_buy_value_rupiah: float | None = None
+    foreign_sell_value_rupiah: float | None = None
+    as_of_date: str | None = Field(default=None, description="YYYY-MM-DD")
 
 
 class StockDetail(BaseModel):
     """Stock page. Company-report sections are fetched only when needed (1 credit each)."""
 
-    symbol: str
+    ticker_symbol: str
     company_name: str
     overview: StockOverview
     valuation: StockValuation
     flow: StockFlow
     score: ScoreBreakdown
     signals: list[SignalBadge] = Field(default_factory=list)
-    anomaly: bool = False
+    has_anomaly: bool = False
     disclaimer: str = (
         "Information and analysis only. Not investment advice."
     )

@@ -5,10 +5,10 @@
 
   let { children }: { children: Snippet } = $props();
 
-  const links = [
-    { href: '/', label: 'Screener' },
-    { href: '/unusual', label: 'Unusual Activity' },
-    { href: '/compare', label: 'Compare' }
+  const navigation_links = [
+    { path: '/', label: 'Screener' },
+    { path: '/unusual', label: 'Unusual Activity' },
+    { path: '/compare', label: 'Compare' }
   ];
 </script>
 
@@ -16,14 +16,14 @@
   <header class="border-b border-neutral-200">
     <nav class="flex items-center gap-4 px-3 py-2 text-sm">
       <span class="font-semibold tracking-tight">IDX Screener</span>
-      {#each links as link}
+      {#each navigation_links as navigation_link}
         <a
-          href={link.href}
-          class={$page.url.pathname === link.href
+          href={navigation_link.path}
+          class={$page.url.pathname === navigation_link.path
             ? 'font-medium underline'
             : 'text-neutral-600 hover:text-neutral-900'}
         >
-          {link.label}
+          {navigation_link.label}
         </a>
       {/each}
     </nav>
