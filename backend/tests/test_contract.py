@@ -13,12 +13,22 @@ def test_health() -> None:
     assert "Not investment advice" in response.json()["disclaimer"]
 
 
-def test_screener_stub_is_empty() -> None:
+def test_screener_serves_cached_snapshot_only() -> None:
     response = api_client.get("/api/screener")
     response_body = response.json()
     assert response.status_code == 200
     assert response_body["results"] == []
     assert response_body["pagination"]["total_count"] == 0
+    assert "Not investment advice" in response_body["disclaimer"]
+
+
+def test_credit_status_starts_at_budget() -> None:
+    response = api_client.get("/api/credits")
+    response_body = response.json()
+    assert response.status_code == 200
+    assert response_body["credits_used"] == 0
+    assert response_body["credit_budget"] == 1000
+    assert response_body["credits_remaining"] == 1000
 
 
 def test_compare_requires_two_symbols() -> None:

@@ -1,8 +1,16 @@
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
-from app.routers import compare, screener, stocks, unusual
+from app.routers import compare, credits, scores, screener, stocks, unusual
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s %(message)s",
+)
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 DISCLAIMER = "Information and analysis only. Not investment advice."
 
@@ -21,9 +29,11 @@ app.add_middleware(
 )
 
 app.include_router(screener.router)
+app.include_router(scores.router)
 app.include_router(stocks.router)
 app.include_router(compare.router)
 app.include_router(unusual.router)
+app.include_router(credits.router)
 
 
 @app.get("/health")

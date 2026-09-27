@@ -8,12 +8,25 @@ export type SignalKind =
 
 export type AnomalyKind = 'volume_standard_score' | 'foreign_flow_standard_score';
 
+export type AnomalyFlag = {
+  ticker_symbol: string;
+  company_name: string;
+  anomaly_kind: AnomalyKind;
+  label: string;
+  standard_score: number;
+  observed_value: number | null;
+  baseline_value: number | null;
+  threshold: number;
+  as_of_date: string;
+  reason: string;
+};
+
 export type ScoreBreakdown = {
-  overall_score: number;
-  value_score: number;
-  quality_score: number;
-  momentum_score: number;
-  flow_score: number;
+  overall_score: number | null;
+  value_score: number | null;
+  quality_score: number | null;
+  momentum_score: number | null;
+  flow_score: number | null;
   universe_rank: number | null;
 };
 
@@ -52,6 +65,7 @@ export type ScreenerRow = {
   score: ScoreBreakdown;
   signals: SignalBadge[];
   has_anomaly: boolean;
+  anomalies: AnomalyFlag[];
 };
 
 export type ScreenerResponse = {
@@ -59,6 +73,32 @@ export type ScreenerResponse = {
   pagination: Pagination;
   view_tab: ViewTab;
   disclaimer: string;
+};
+
+export type CustomScreenerResponse = {
+  where_clause: string;
+  order_by: string;
+  results: ScreenerRow[];
+  pagination: Pagination;
+  credits_charged: number;
+  cache_hit: boolean;
+  scored_from_cache: number;
+  notes: string[];
+  disclaimer: string;
+};
+
+export type ScreenerFieldsResponse = {
+  operators: string[];
+  logic_keywords: string[];
+  direct_fields: string[];
+  array_fields: string[];
+  latest_value_fields: string[];
+  yearly_fields: string[];
+  quarterly_fields: string[];
+  examples: string[];
+  max_clause_length: number;
+  max_conditions: number;
+  credits_per_page: number;
 };
 
 export type StockOverview = {
@@ -100,6 +140,7 @@ export type StockDetail = {
   score: ScoreBreakdown;
   signals: SignalBadge[];
   has_anomaly: boolean;
+  anomalies: AnomalyFlag[];
   disclaimer: string;
 };
 
@@ -111,14 +152,8 @@ export type CompareResponse = {
 };
 
 export type UnusualActivityResponse = {
-  results: {
-    ticker_symbol: string;
-    company_name: string;
-    anomaly_kind: AnomalyKind;
-    standard_score: number;
-    as_of_date: string;
-    reason: string;
-  }[];
+  results: AnomalyFlag[];
   pagination: Pagination;
+  method_notes: string[];
   disclaimer: string;
 };

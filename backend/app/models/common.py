@@ -23,13 +23,13 @@ class SignalBadge(BaseModel):
 
 
 class ScoreBreakdown(BaseModel):
-    """Four-pillar score. Weights are decided in Phase 2; placeholders are 0 until then."""
+    """Four-pillar score. Missing parts are null; overall_score is null when unranked."""
 
-    overall_score: float = Field(ge=0, le=100)
-    value_score: float = Field(ge=0, le=100)
-    quality_score: float = Field(ge=0, le=100)
-    momentum_score: float = Field(ge=0, le=100)
-    flow_score: float = Field(ge=0, le=100)
+    overall_score: float | None = Field(default=None, ge=0, le=100)
+    value_score: float | None = Field(default=None, ge=0, le=100)
+    quality_score: float | None = Field(default=None, ge=0, le=100)
+    momentum_score: float | None = Field(default=None, ge=0, le=100)
+    flow_score: float | None = Field(default=None, ge=0, le=100)
     universe_rank: int | None = Field(default=None, ge=1)
 
 

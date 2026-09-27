@@ -126,27 +126,23 @@ Copy the layout, not the data. Layout elements:
 - [x] **[AI]** Define the API contract first: Pydantic models for screener rows, stock detail, compare and anomalies
 
 **Phase 1: Data layer (19 to 20 Sept)**
-- [ ] **[AI]** Sectors client with caching, retry, 429 handling and a credit counter
-- [ ] **[AI]** Snapshot script: screener universe and full-universe foreign flow into SQLite
-- [ ] **[Me]** Check the credit counter and note each endpoint's real cost
+- [x] **[AI]** Sectors client with caching, retry, 429 handling and a credit counter
+- [x] **[AI]** Snapshot script: screener universe and full-universe foreign flow into SQLite
+- [x] **[Me]** Check the credit counter and note each endpoint's real cost
 
 **Phase 2: Derived insight (21 to 24 Sept), the part that qualifies**
-- [ ] **[Me]** Decide the score formula and weights, and be ready to explain them on video
-- [ ] **[AI]** Score and ranking with a per-stock breakdown
-- [ ] **[AI]** Signal badges from Sectors data (movers, 52-week high, foreign accumulation, insider buying)
-- [ ] **[AI]** Unusual-activity detection (z-scores on volume and foreign flow) with a reason per flag
-- [ ] **[AI]** Custom-logic endpoint that passes a validated `where` query to Sectors' screener
+- [x] **[Me]** Decide the score formula and weights, and be ready to explain them on video
+- [x] **[AI]** Score and ranking with a per-stock breakdown
+- [x] **[AI]** Signal badges from Sectors data (movers, 52-week high, foreign accumulation, insider buying)
+- [x] **[AI]** Unusual-activity detection (z-scores on volume and foreign flow) with a reason per flag
+- [x] **[AI]** Custom-logic endpoint that passes a validated `where` query to Sectors' screener
 
 **Phase 3: Finviz-style UI (22 to 26 Sept)**
 - [ ] **[AI]** Routes: `/` (screener), `/stock/[symbol]`, `/compare`, `/unusual`
 - [ ] **[AI]** Control row, filter grid, sortable table with Score, Signal and Anomaly columns
 - [ ] **[Me]** Click through it on real data and list what feels wrong
 
-**Phase 4: Optional (27 to 28 Sept)**
-- [ ] **[AI]** LLM summary that writes only from fetched numbers
-- [ ] **[AI]** Dark mode, saved filter sets
-
-**Phase 5: Submission (28 to 29 Sept)**
+**Phase 4: Submission (28 to 29 Sept)**
 - [ ] **[Me]** Record the 1-minute teaser (public on YouTube or social media)
 - [ ] **[Me]** Record the judging video (up to 3 minutes)
 - [ ] **[AI]** README: how Sectors powers the core, setup steps, score formula, disclaimer

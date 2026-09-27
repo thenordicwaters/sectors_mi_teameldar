@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 
+from app.models.anomalies import AnomalyFlag
 from app.models.common import ScoreBreakdown, SignalBadge
 
 
@@ -44,6 +45,7 @@ class StockDetail(BaseModel):
     score: ScoreBreakdown
     signals: list[SignalBadge] = Field(default_factory=list)
     has_anomaly: bool = False
+    anomalies: list[AnomalyFlag] = Field(default_factory=list)
     disclaimer: str = (
         "Information and analysis only. Not investment advice."
     )
