@@ -123,6 +123,7 @@ def _evaluate_tests(stock: StockInputs) -> list[dict]:
             lambda: stock.asset_turnover > stock.asset_turnover_prior,
         ),
     }
+
     tests = []
     for key, label, _field in TEST_SPECS:
         result = outcomes[key]

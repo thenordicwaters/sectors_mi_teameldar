@@ -11,3 +11,4 @@ requests
 pandas
 altair
 ipdb
+rich

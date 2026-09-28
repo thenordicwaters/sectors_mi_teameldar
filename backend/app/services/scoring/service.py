@@ -22,7 +22,6 @@ class ScoringService:
         for method in self._methods:
             for stock in stocks:
                 method_results[stock.symbol][method.name] = method.score(stock, stocks)
-        breakpoint()
         return sorted(
             self._composite.combine(stocks, method_results, resolved_weights),
             key=lambda result: (result.rank is None, result.rank or 0, result.symbol),
