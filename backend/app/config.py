@@ -19,6 +19,8 @@ class Settings(BaseSettings):
     sectors_opening_credits_used: int = 0
     sectors_request_timeout_seconds: float = 30
     sectors_min_interval_seconds: float = 0.2
+    # First API request of each Jakarta day starts the daily refresh in the background.
+    daily_refresh_enabled: bool = True
 
     def resolved_sqlite_path(self) -> Path:
         database_path = Path(self.sectors_sqlite_path)

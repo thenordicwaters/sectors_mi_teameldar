@@ -8,11 +8,11 @@ from app.services.anomalies import (
 )
 
 DETECTION_FLOOR = min(
-    VOLUME_STANDARD_SCORE_THRESHOLD, FOREIGN_FLOW_STANDARD_SCORE_THRESHOLD
+    VOLUME_STANDARD_SCORE_THRESHOLD,
+    FOREIGN_FLOW_STANDARD_SCORE_THRESHOLD
 )
 
 router = APIRouter(prefix="/api/unusual", tags=["unusual"])
-
 
 @router.get("", response_model=UnusualActivityResponse)
 def list_unusual_activity(

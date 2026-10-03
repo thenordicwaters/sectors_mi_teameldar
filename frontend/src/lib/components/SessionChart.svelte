@@ -19,10 +19,9 @@
     if (referencePrice != null) values.push(referencePrice);
     let min = Math.min(...values);
     let max = Math.max(...values);
-    if (min === max) {
-      min -= 1;
-      max += 1;
-    }
+    const span = Math.max(max - min, 1);
+    min -= span * 0.08;
+    max += span * 0.08;
     const width = 640;
     const height = 220;
     const pad = { left: 8, right: 72, top: 16, bottom: 28 };

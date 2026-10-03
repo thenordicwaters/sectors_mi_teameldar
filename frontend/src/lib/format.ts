@@ -22,7 +22,7 @@ export function formatRupiah(value: number | null | undefined): string {
   if (value == null || Number.isNaN(value)) return '—';
   const absolute = Math.abs(value);
   const sign = value < 0 ? '−' : '';
-  if (absolute >= 1_000_000_000_000) return `${sign}Rp ${(absolute / 1_000_000_000_000).toFixed(1)}T`;
+  if (absolute >= 1_000_000_000_000) return `${sign}Rp ${(absolute / 1_000_000_000_000).toFixed(2)}T`;
   if (absolute >= 1_000_000_000) return `${sign}Rp ${(absolute / 1_000_000_000).toFixed(1)}B`;
   if (absolute >= 1_000_000) return `${sign}Rp ${(absolute / 1_000_000).toFixed(1)}M`;
   return `${sign}Rp ${Math.round(absolute).toLocaleString('en-US')}`;

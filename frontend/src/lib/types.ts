@@ -173,6 +173,26 @@ export type StockQuote = {
   source: string;
 };
 
+export type PriceRange = '1m' | '3m' | '1y' | 'all';
+
+export type HistoryPoint = {
+  date: string;
+  close: number;
+};
+
+export type PriceHistory = {
+  symbol: string;
+  name: string;
+  range: PriceRange;
+  as_of_date: string;
+  session_date: string | null;
+  close: number | null;
+  previous_close: number | null;
+  change: number | null;
+  points: HistoryPoint[];
+  source: string;
+};
+
 export type IndexSession = {
   symbol: string;
   name: string;

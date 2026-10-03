@@ -116,6 +116,16 @@ SCHEMA_STATEMENTS = [
         fetched_at TEXT NOT NULL
     )
     """,
+    """
+    CREATE TABLE IF NOT EXISTS daily_refresh (
+        refresh_date TEXT PRIMARY KEY,
+        status TEXT NOT NULL,
+        started_at TEXT NOT NULL,
+        finished_at TEXT,
+        credits_used INTEGER,
+        detail_json TEXT
+    )
+    """,
 ]
 
 

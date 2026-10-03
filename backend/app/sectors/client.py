@@ -114,7 +114,8 @@ class SectorsClient:
                 )
         if credits_remaining() < success_credit_cost:
             raise SectorsCreditBudgetError(
-                "Not enough credits remaining in the 1,000 budget for this call."
+                "Not enough credits remaining in the "
+                f"{settings.sectors_credit_budget:,} budget for this call."
             )
 
         response = self._get_with_retry(path, query_parameters)

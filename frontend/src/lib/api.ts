@@ -2,6 +2,8 @@ import type {
   AnomalyFlag,
   CompositeResult,
   IndexSession,
+  PriceHistory,
+  PriceRange,
   ScreenerResponse,
   ScreenerRow,
   StockDetail,
@@ -40,6 +42,11 @@ export function fetchQuote(symbol: string): Promise<StockQuote> {
 
 export function fetchIhsg(): Promise<IndexSession> {
   return fetchJson('/api/market/ihsg');
+}
+
+export function fetchPriceHistory(resource: string, range: PriceRange): Promise<PriceHistory> {
+  const separator = resource.includes('?') ? '&' : '?';
+  return fetchJson(`${resource}${separator}range=${encodeURIComponent(range)}`);
 }
 
 let universeRequest: Promise<ScreenerRow[]> | null = null;

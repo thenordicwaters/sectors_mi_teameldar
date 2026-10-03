@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
-  import IhsgChart from '$lib/components/IhsgChart.svelte';
+  import HistoryChart from '$lib/components/HistoryChart.svelte';
   import Notice from '$lib/components/Notice.svelte';
   import { loadUniverse } from '$lib/api';
   import { displaySymbol, formatScore, uniqueSorted } from '$lib/format';
@@ -157,7 +157,12 @@
   </p>
 </section>
 
-<IhsgChart />
+<HistoryChart
+  resource="/api/market/ihsg/history"
+  kicker={text($locale, 'ihsg.kicker')}
+  title={text($locale, 'ihsg.title')}
+  priceKind="index"
+/>
 
 <form class="mt-8" onsubmit={openSearch}>
   <label class="text-sm font-medium" for="ticker-search">{text($locale, 'home.searchLabel')}</label>
@@ -245,17 +250,17 @@
     <button class="text-sm text-muted hover:text-ink" type="button" onclick={clearFilters}>{text($locale, 'home.clear')}</button>
   </div>
 
-  <div class="mt-3 overflow-hidden rounded-2xl border border-line bg-white">
+  <div class="mt-3 overflow-x-auto rounded-2xl border border-line bg-white">
     <div
-      class="hidden grid-cols-[4.5rem_minmax(0,1.3fr)_minmax(0,0.8fr)_minmax(0,0.8fr)_4.5rem_minmax(0,1.2fr)_minmax(0,1fr)] gap-3 border-b border-line px-4 py-3 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-muted md:grid"
+      class="hidden min-w-[62rem] grid-cols-[4.5rem_minmax(9.5rem,1.5fr)_minmax(7.5rem,0.9fr)_minmax(8.5rem,1fr)_9.25rem_minmax(9.5rem,1.1fr)_minmax(9rem,1fr)] gap-x-4 border-b border-line px-4 py-3 text-[0.7rem] font-medium uppercase leading-tight tracking-[0.04em] text-muted md:grid"
     >
-      <span>{text($locale, 'home.ticker')}</span>
-      <span>{text($locale, 'home.company')}</span>
-      <span>{text($locale, 'home.sector')}</span>
-      <span>{text($locale, 'home.subsector')}</span>
-      <span>{text($locale, 'home.overall')}</span>
-      <span>{text($locale, 'home.signalCol')}</span>
-      <span>{text($locale, 'home.anomaly')}</span>
+      <span class="whitespace-nowrap">{text($locale, 'home.ticker')}</span>
+      <span class="whitespace-nowrap">{text($locale, 'home.company')}</span>
+      <span class="whitespace-nowrap">{text($locale, 'home.sector')}</span>
+      <span class="whitespace-nowrap">{text($locale, 'home.subsector')}</span>
+      <span class="whitespace-nowrap">{text($locale, 'home.overall')}</span>
+      <span class="whitespace-nowrap">{text($locale, 'home.signalCol')}</span>
+      <span class="whitespace-nowrap">{text($locale, 'home.anomaly')}</span>
     </div>
     <ul>
       {#each visibleRows as row (row.ticker_symbol)}
@@ -264,7 +269,7 @@
         <li class="border-b border-line last:border-b-0">
           <a
             href={`/stock/${displaySymbol(row.ticker_symbol)}`}
-            class="grid gap-3 px-4 py-4 transition hover:bg-sand/60 md:grid-cols-[4.5rem_minmax(0,1.3fr)_minmax(0,0.8fr)_minmax(0,0.8fr)_4.5rem_minmax(0,1.2fr)_minmax(0,1fr)] md:items-center"
+            class="grid gap-3 px-4 py-4 transition hover:bg-sand/60 md:min-w-[62rem] md:grid-cols-[4.5rem_minmax(9.5rem,1.5fr)_minmax(7.5rem,0.9fr)_minmax(8.5rem,1fr)_9.25rem_minmax(9.5rem,1.1fr)_minmax(9rem,1fr)] md:items-center md:gap-x-4"
           >
             <span class="font-semibold tracking-tight">{displaySymbol(row.ticker_symbol)}</span>
             <span class="truncate text-sm text-ink">{row.company_name}</span>

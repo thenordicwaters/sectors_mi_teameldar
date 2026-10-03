@@ -34,9 +34,9 @@
 
 <div class="min-h-screen bg-paper text-ink">
   <header class="sticky top-0 z-20 border-b border-line bg-paper/90 backdrop-blur">
-    <nav class="mx-auto flex max-w-6xl items-center gap-6 px-4 py-3">
-      <a href="/" class="font-serif text-lg tracking-tight">IDX</a>
-      <div class="flex items-center gap-4 text-sm">
+    <nav class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
+      <a href="/" class="shrink-0 font-serif text-lg tracking-tight">IDX</a>
+      <div class="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-1 text-sm">
         {#each navigationLinks as navigationLink}
           <a
             href={navigationLink.path}

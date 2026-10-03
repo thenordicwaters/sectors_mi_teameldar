@@ -36,6 +36,32 @@ class StockQuote(BaseModel):
     source: str = "Yahoo Finance"
 
 
+PriceRange = Literal["1m", "3m", "1y", "all"]
+
+
+class HistoryPoint(BaseModel):
+    date: str = Field(description="YYYY-MM-DD")
+    close: float
+
+
+class PriceHistory(BaseModel):
+    """Daily closes through the previous Jakarta date. Not a live session."""
+
+    symbol: str
+    name: str
+    range: PriceRange
+    as_of_date: str = Field(description="Yesterday in Asia/Jakarta, YYYY-MM-DD.")
+    session_date: str | None = Field(
+        default=None,
+        description="Date of the last close on or before as_of_date.",
+    )
+    close: float | None = None
+    previous_close: float | None = None
+    change: float | None = None
+    points: list[HistoryPoint] = Field(default_factory=list)
+    source: str = "Sectors"
+
+
 class IndexSession(BaseModel):
     """Latest IHSG session. Yahoo Finance symbol ^JKSE, 0 Sectors credits."""
 

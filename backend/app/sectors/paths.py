@@ -24,3 +24,13 @@ CLOSE_UNIVERSE_MAX_PAGE_SIZE = 30
 FILINGS_PATH = "/v2/filings/"
 FILINGS_CREDITS_PER_PAGE = 1
 FILINGS_MAX_PAGE_SIZE = 30
+
+# Daily closes: 1 credit per request, max 90 days. Do not loop the universe.
+DAILY_PATH_TEMPLATE = "/v2/daily/{symbol}/"
+DAILY_CREDITS = 1
+INDEX_DAILY_PATH_TEMPLATE = "/v2/index-daily/{index_code}/"
+INDEX_DAILY_CREDITS = 1
+DAILY_MAX_DAYS = 90
+IHSG_INDEX_CODE = "ihsg"
+# Documented earliest index-daily date.
+IHSG_EARLIEST = "2019-01-02"

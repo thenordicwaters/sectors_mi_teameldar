@@ -2,12 +2,12 @@
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
   import Disclosure from '$lib/components/Disclosure.svelte';
+  import HistoryChart from '$lib/components/HistoryChart.svelte';
   import MethodPanel from '$lib/components/MethodPanel.svelte';
   import Notice from '$lib/components/Notice.svelte';
-  import SessionChart from '$lib/components/SessionChart.svelte';
   import SourceTag from '$lib/components/SourceTag.svelte';
-  import { fetchQuote, fetchScore, fetchStock } from '$lib/api';
-  import { displaySymbol, formatPercent, formatPrice, formatRupiah, formatScore, formatSessionDate, formatZScore } from '$lib/format';
+  import { fetchScore, fetchStock } from '$lib/api';
+  import { displaySymbol, formatRupiah, formatScore, formatSessionDate, formatZScore } from '$lib/format';
   import { locale, text } from '$lib/i18n';
   import {
     METHOD_ORDER,
@@ -16,23 +16,18 @@
     signalMethodology,
     signalPresentation
   } from '$lib/presentation';
-  import type { CompositeResult, StockDetail, StockQuote } from '$lib/types';
+  import type { CompositeResult, StockDetail } from '$lib/types';
 
   let stock = $state<StockDetail | null>(null);
   let score = $state<CompositeResult | null>(null);
-  let quote = $state<StockQuote | null>(null);
   let stockStatus = $state<'loading' | 'ready' | 'error'>('loading');
   let scoreStatus = $state<'loading' | 'ready' | 'error'>('loading');
-  let quoteStatus = $state<'loading' | 'ready' | 'error'>('loading');
   let stockError = $state('');
   let scoreError = $state('');
   let loadedSymbol = '';
 
   const overall = $derived(score?.score ?? stock?.score.overall_score ?? null);
   const rank = $derived(score ? score.rank : (stock?.score.universe_rank ?? null));
-  const liveClose = $derived(quote?.close ?? null);
-  const shownClose = $derived(liveClose ?? stock?.overview.last_close_price ?? null);
-  const shownChange = $derived(quote?.change ?? (liveClose == null ? stock?.overview.daily_close_change ?? null : null));
 
   onMount(() => {
     return page.subscribe((current) => {
@@ -46,10 +41,8 @@
   async function load(nextSymbol: string) {
     stock = null;
     score = null;
-    quote = null;
     stockStatus = 'loading';
     scoreStatus = 'loading';
-    quoteStatus = 'loading';
     stockError = '';
     scoreError = '';
 
@@ -77,34 +70,15 @@
         scoreStatus = 'error';
       });
 
-    const quoteRequest = fetchQuote(nextSymbol)
-      .then((loaded) => {
-        if (loadedSymbol !== nextSymbol) return;
-        quote = loaded;
-        quoteStatus = 'ready';
-      })
-      .catch(() => {
-        if (loadedSymbol !== nextSymbol) return;
-        quoteStatus = 'error';
-      });
-
-    await Promise.all([stockRequest, scoreRequest, quoteRequest]);
+    await Promise.all([stockRequest, scoreRequest]);
   }
 
-  function quoteSentence(): string {
-    if (!quote || quote.session_status === 'unavailable' || quote.close == null) {
-      return text($locale, 'quote.unavailable');
-    }
-    if (quote.session_status === 'today') return text($locale, 'quote.today');
-    if (quote.session_status === 'weekend') return text($locale, 'quote.weekend');
-    return text($locale, 'quote.earlier');
-  }
-
-  function levelSentence(): string {
-    if (quote?.close == null || quote.prior_high == null) return '';
-    if (quote.close > quote.prior_high) return text($locale, 'chart.above');
-    if (quote.close < quote.prior_high) return text($locale, 'chart.below');
-    return text($locale, 'chart.same');
+  function pillarName(name: string): string {
+    if (name === 'quality') return text($locale, 'stock.quality');
+    if (name === 'value') return text($locale, 'stock.value');
+    if (name === 'momentum') return text($locale, 'stock.momentum');
+    if (name === 'flow') return text($locale, 'stock.flow');
+    return name;
   }
 </script>
 
@@ -129,30 +103,6 @@
           · {stock.overview.sub_sector}
         {/if}
       </p>
-      {#if quoteStatus === 'loading'}
-        <p class="mt-4 text-sm text-muted">{text($locale, 'quote.checking')}</p>
-      {:else}
-        <p class="mt-4 flex flex-wrap items-end gap-3">
-          <span class="numeral font-serif text-5xl leading-none">{formatPrice(shownClose, $locale)}</span>
-          <span class={shownChange != null && shownChange < 0 ? 'text-clay' : 'text-forest'}>
-            {formatPercent(shownChange)}
-          </span>
-          <SourceTag label={quote?.close != null ? 'Yahoo Finance' : 'Sectors'} />
-        </p>
-        <p class="mt-3 text-xs font-medium uppercase tracking-[0.16em] text-forest">{text($locale, 'quote.asOf')}</p>
-        <p class="font-serif text-3xl">
-          {formatSessionDate(quote?.session_date ?? quote?.snapshot_fetched_at, $locale)}
-        </p>
-        <p class="mt-1 max-w-xl text-sm leading-6 text-ink">{quoteSentence()}</p>
-        {#if quote?.snapshot_close != null && quote.snapshot_fetched_at}
-          <p class="mt-2 max-w-xl text-sm leading-6 text-muted">
-            {text($locale, 'quote.snapshot', {
-              date: formatSessionDate(quote.snapshot_fetched_at, $locale),
-              price: formatPrice(quote.snapshot_close, $locale)
-            })}
-          </p>
-        {/if}
-      {/if}
     </div>
     <div class="md:text-right">
       <p class="text-xs font-medium uppercase tracking-[0.16em] text-muted">{text($locale, 'stock.overall')}</p>
@@ -165,35 +115,11 @@
     </div>
   </header>
 
-  <section class="mt-8 rounded-2xl border border-line bg-white p-4 sm:p-5">
-    <div class="flex items-start justify-between gap-4">
-      <div>
-        <h2 class="font-serif text-2xl">{text($locale, 'stock.chartTitle')}</h2>
-        {#if quote?.prior_high != null}
-          <p class="mt-2 text-sm font-medium text-ink">
-            {text($locale, 'chart.h1')}
-            {formatPrice(quote.prior_high, $locale)}
-            {#if quote.prior_session_date}
-              · {formatSessionDate(quote.prior_session_date, $locale)}
-            {/if}
-          </p>
-          <p class="mt-1 text-sm text-muted">{levelSentence()}</p>
-        {/if}
-      </div>
-      <SourceTag label="Yahoo Finance" />
-    </div>
-    {#if quote && quote.points.length >= 2}
-      <div class="mt-3">
-        <SessionChart points={quote.points} referencePrice={quote.prior_high} />
-      </div>
-    {:else if quoteStatus !== 'loading'}
-      <p class="mt-3 text-sm text-muted">{text($locale, 'chart.empty')}</p>
-    {/if}
-    <p class="mt-3 text-sm leading-6 text-muted">{text($locale, 'chart.explain')}</p>
-    <Disclosure label={text($locale, 'quote.whyTitle')}>
-      <p class="text-sm leading-6">{text($locale, 'quote.whyBody')}</p>
-    </Disclosure>
-  </section>
+  <HistoryChart
+    resource={`/api/market/history/${displaySymbol(stock.ticker_symbol)}`}
+    title={text($locale, 'stock.chartTitle')}
+    priceKind="price"
+  />
 
   <section class="mt-8">
     <div class="flex items-end justify-between gap-4">
@@ -239,7 +165,7 @@
           <p class="mt-4 text-sm leading-6 text-ink">
             {text($locale, 'stock.weights')}
             {Object.entries(score.weights_used)
-              .map(([name, weight]) => `${name} ${Math.round(weight)}`)
+              .map(([name, weight]) => `${pillarName(name)} ${Math.round(weight)}`)
               .join(' · ')}
           </p>
         {/if}
@@ -337,7 +263,7 @@
         </dd>
       </div>
     </dl>
-    <p class="mt-4 text-xs leading-5 text-muted">{stock.disclaimer}</p>
+    <p class="mt-4 text-xs leading-5 text-muted">{text($locale, 'footer.disclaimer')}</p>
     <p class="mt-2 text-xs text-muted">{text($locale, 'stock.momentumNote')}</p>
   </section>
 {/if}
