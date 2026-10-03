@@ -151,9 +151,75 @@ export type CompareResponse = {
   disclaimer: string;
 };
 
+export type SessionStatus = 'today' | 'weekend' | 'earlier' | 'unavailable';
+
+export type IntradayPoint = {
+  time: string;
+  price: number;
+};
+
+export type StockQuote = {
+  ticker_symbol: string;
+  close: number | null;
+  previous_close: number | null;
+  change: number | null;
+  session_date: string | null;
+  session_status: SessionStatus;
+  snapshot_close: number | null;
+  snapshot_fetched_at: string | null;
+  prior_session_date: string | null;
+  prior_high: number | null;
+  points: IntradayPoint[];
+  source: string;
+};
+
+export type IndexSession = {
+  symbol: string;
+  name: string;
+  session_date: string | null;
+  session_status: SessionStatus;
+  last_price: number | null;
+  previous_close: number | null;
+  change: number | null;
+  prior_session_date: string | null;
+  prior_high: number | null;
+  points: IntradayPoint[];
+  source: string;
+};
+
 export type UnusualActivityResponse = {
   results: AnomalyFlag[];
   pagination: Pagination;
   method_notes: string[];
   disclaimer: string;
+};
+
+export type MethodResult = {
+  method: string;
+  version: string;
+  score: number | null;
+  breakdown: Record<string, unknown>;
+  reasons: string[];
+  missing_fields: string[];
+  applicable: boolean;
+  notes: string[];
+};
+
+export type ComponentScores = {
+  quality: number | null;
+  value: number | null;
+  momentum: number | null;
+  flow: number | null;
+};
+
+export type CompositeResult = {
+  symbol: string;
+  score: number | null;
+  rank: number | null;
+  components: ComponentScores;
+  methods: Record<string, MethodResult>;
+  coverage: number;
+  excluded_reason: string | null;
+  notes: string[];
+  weights_used: Record<string, number>;
 };

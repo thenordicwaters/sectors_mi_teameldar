@@ -1,37 +1,79 @@
 <script lang="ts">
   import '../app.css';
+  import { browser } from '$app/environment';
   import { page } from '$app/stores';
+  import { onMount } from 'svelte';
+  import { initLocale, locale, setLocale, text, type Locale } from '$lib/i18n';
   import type { Snippet } from 'svelte';
 
   let { children }: { children: Snippet } = $props();
 
-  const navigation_links = [
-    { path: '/', label: 'Screener' },
-    { path: '/unusual', label: 'Unusual Activity' },
-    { path: '/compare', label: 'Compare' }
-  ];
+  const navigationLinks = [
+    { path: '/', label: 'nav.discover' },
+    { path: '/unusual', label: 'nav.unusual' },
+    { path: '/compare', label: 'nav.compare' }
+  ] as const;
+
+  function isCurrent(path: string, pathname: string): boolean {
+    if (path === '/') return pathname === '/';
+    return pathname === path || pathname.startsWith(`${path}/`);
+  }
+
+  function chooseLocale(next: Locale) {
+    setLocale(next);
+  }
+
+  onMount(() => {
+    initLocale();
+  });
+
+  $effect(() => {
+    if (browser) document.documentElement.lang = $locale === 'id' ? 'id' : 'en';
+  });
 </script>
 
-<div class="min-h-screen bg-white text-neutral-900">
-  <header class="border-b border-neutral-200">
-    <nav class="flex items-center gap-4 px-3 py-2 text-sm">
-      <span class="font-semibold tracking-tight">IDX Screener</span>
-      {#each navigation_links as navigation_link}
-        <a
-          href={navigation_link.path}
-          class={$page.url.pathname === navigation_link.path
-            ? 'font-medium underline'
-            : 'text-neutral-600 hover:text-neutral-900'}
+<div class="min-h-screen bg-paper text-ink">
+  <header class="sticky top-0 z-20 border-b border-line bg-paper/90 backdrop-blur">
+    <nav class="mx-auto flex max-w-6xl items-center gap-6 px-4 py-3">
+      <a href="/" class="font-serif text-lg tracking-tight">IDX</a>
+      <div class="flex items-center gap-4 text-sm">
+        {#each navigationLinks as navigationLink}
+          <a
+            href={navigationLink.path}
+            class={isCurrent(navigationLink.path, $page.url.pathname)
+              ? 'font-semibold text-ink'
+              : 'text-muted hover:text-ink'}
+            aria-current={isCurrent(navigationLink.path, $page.url.pathname) ? 'page' : undefined}
+          >
+            {text($locale, navigationLink.label)}
+          </a>
+        {/each}
+      </div>
+      <div class="ml-auto flex rounded-full border border-line bg-white p-0.5 text-xs font-semibold" role="group" aria-label={text($locale, 'lang.switch')}>
+        <button
+          class={$locale === 'en' ? 'rounded-full bg-ink px-2.5 py-1 text-paper' : 'px-2.5 py-1 text-muted'}
+          type="button"
+          aria-pressed={$locale === 'en'}
+          onclick={() => chooseLocale('en')}
         >
-          {navigation_link.label}
-        </a>
-      {/each}
+          EN
+        </button>
+        <button
+          class={$locale === 'id' ? 'rounded-full bg-ink px-2.5 py-1 text-paper' : 'px-2.5 py-1 text-muted'}
+          type="button"
+          aria-pressed={$locale === 'id'}
+          onclick={() => chooseLocale('id')}
+        >
+          ID
+        </button>
+      </div>
     </nav>
   </header>
-  <main>
+  <main class="mx-auto max-w-6xl px-4 py-8">
     {@render children()}
   </main>
-  <footer class="border-t border-neutral-200 px-3 py-2 text-xs text-neutral-500">
-    Information and analysis only. Not investment advice.
+  <footer class="mx-auto max-w-6xl space-y-1 px-4 pb-10 text-xs leading-5 text-muted">
+    <p>{text($locale, 'footer.sources')}</p>
+    <p>{text($locale, 'footer.disclaimer')}</p>
   </footer>
 </div>

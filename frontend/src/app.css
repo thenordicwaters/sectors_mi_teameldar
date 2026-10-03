@@ -1,3 +1,94 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  margin: 0;
+  background: #f3efe6;
+  color: #1a1814;
+  font-family: 'Avenir Next', 'Segoe UI', sans-serif;
+}
+
+.numeral {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+}
+
+.field {
+  width: 100%;
+  border-radius: 0.85rem;
+  border: 1px solid #e4dcd0;
+  background: white;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.95rem;
+  color: #1a1814;
+  outline: none;
+}
+
+.field:focus {
+  box-shadow: 0 0 0 3px rgba(15, 106, 74, 0.18);
+}
+
+.source-tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: #efe8dc;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #6f675e;
+  white-space: nowrap;
+}
+
+.disclosure {
+  margin-top: 0.75rem;
+}
+
+.disclosure > summary {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  list-style: none;
+  color: #0f6a4a;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+
+.disclosure[open] .disclosure-chevron {
+  transform: rotate(180deg);
+}
+
+.disclosure-chevron {
+  display: inline-block;
+  transition: transform 160ms ease;
+}
+
+.disclosure-body {
+  margin-top: 0.85rem;
+  border-top: 1px solid #e4dcd0;
+  padding-top: 0.85rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 999px;
+  background: #efe8dc;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.78rem;
+  line-height: 1.3;
+  color: #1a1814;
+}
+
+.chip-anomaly {
+  background: #f6e4da;
+}

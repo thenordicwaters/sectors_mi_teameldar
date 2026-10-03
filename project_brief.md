@@ -138,9 +138,11 @@ Copy the layout, not the data. Layout elements:
 - [x] **[AI]** Custom-logic endpoint that passes a validated `where` query to Sectors' screener
 
 **Phase 3: Finviz-style UI (22 to 26 Sept)**
-- [ ] **[AI]** Routes: `/` (screener), `/stock/[symbol]`, `/compare`, `/unusual`
-- [ ] **[AI]** Control row, filter grid, sortable table with Score, Signal and Anomaly columns
-- [ ] **[Me]** Click through it on real data and list what feels wrong
+- [x] **[AI]** Routes: `/` (screener), `/stock/[symbol]`, `/compare`, `/unusual`
+- [x] **[AI]** Control row, filter grid, sortable table with Score, Signal and Anomaly columns
+- [x] **[Me]** Click through it on real data and list what feels wrong
+
+Checked 3 Oct 2026 on the cached universe: Discover, a stock brief, Compare, and Unusual all work. One leftover: Unusual filters reset when you open a stock and use the browser Back button.
 
 **Phase 4: Submission (28 to 29 Sept)**
 - [ ] **[Me]** Record the 1-minute teaser (public on YouTube or social media)

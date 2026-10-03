@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
-from app.routers import compare, credits, scores, screener, stocks, unusual
+from app.routers import compare, credits, market, scores, screener, stocks, unusual
 
 logging.basicConfig(
     level=logging.INFO,
@@ -31,6 +31,7 @@ app.add_middleware(
 app.include_router(screener.router)
 app.include_router(scores.router)
 app.include_router(stocks.router)
+app.include_router(market.router)
 app.include_router(compare.router)
 app.include_router(unusual.router)
 app.include_router(credits.router)
