@@ -32,6 +32,10 @@
   });
 </script>
 
+<svelte:head>
+  <title>Eldar Market Intelligence</title>
+</svelte:head>
+
 <div class="min-h-screen bg-paper text-ink">
   <header class="sticky top-0 z-20 border-b border-line bg-paper/90 backdrop-blur">
     <nav class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">

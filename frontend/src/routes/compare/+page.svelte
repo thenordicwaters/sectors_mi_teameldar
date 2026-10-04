@@ -92,10 +92,6 @@
   }
 </script>
 
-<svelte:head>
-  <title>{text($locale, 'compare.title')}</title>
-</svelte:head>
-
 <section class="max-w-3xl">
   <p class="text-sm font-medium uppercase tracking-[0.16em] text-forest">{text($locale, 'compare.kicker')}</p>
   <h1 class="mt-2 font-serif text-4xl leading-tight sm:text-5xl">{text($locale, 'compare.title')}</h1>

@@ -82,10 +82,6 @@
   }
 </script>
 
-<svelte:head>
-  <title>{stock ? `${displaySymbol(stock.ticker_symbol)} · ${stock.company_name}` : 'Stock'}</title>
-</svelte:head>
-
 {#if stockStatus === 'loading'}
   <Notice title={text($locale, 'stock.loading')} />
 {:else if stockStatus === 'error' || !stock}

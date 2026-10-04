@@ -139,10 +139,6 @@
   }
 </script>
 
-<svelte:head>
-  <title>{text($locale, 'home.title')}</title>
-</svelte:head>
-
 <section class="max-w-3xl">
   <p class="text-sm font-medium uppercase tracking-[0.16em] text-forest">{text($locale, 'home.kicker')}</p>
   <h1 class="mt-2 font-serif text-4xl leading-tight text-ink sm:text-5xl">
